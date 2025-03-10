@@ -1,6 +1,7 @@
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 from bs4 import XMLParsedAsHTMLWarning
+from pathlib import Path
 import warnings
 import html
 
@@ -41,10 +42,22 @@ def get_topic_list():
 
     return topic_list
 
+def test_summary(path):
+    txt = Path(path).read_text(encoding="utf8")
 
-topics = get_topic_list()
-print(topics[1].get('title'))
-for link in topics[1].get('links'):
-    print(link)
-    article_text = ArticleTextExtrator.get_text(link)
-    LLMSummariser.get_article_summary_gemini(article_text)
+# test_summary('dummy_news_2.txt')
+
+def process_topics(x_many):
+    topics = get_topic_list()
+    for topic in topics:
+        article_texts_combined = topic.get('title')
+        for link in topic.get('links'):
+            article_text = ArticleTextExtrator.get_text(link)
+            article_texts_combined += "\n--Next News Article--\n" + link + "\n" + article_text
+        LLMSummariser.get_article_summary_gemini(article_texts_combined)
+        x_many-=1
+        if x_many == 0:
+            return
+
+
+process_topics(3)
