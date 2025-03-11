@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styling */
+body {
+  background-color: #000000; /* Deep dark background */
+  color: white;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Smooth Scroll for Better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Styling for Containers */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* News Card Styling */
+.news-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.news-card:hover {
+  border-color: #3b82f6; /* Blue glow on hover */
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* News Details Box */
+.news-details {
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Links */
+a {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #60a5fa;
+  text-decoration: underline;
+}

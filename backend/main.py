@@ -4,12 +4,9 @@ from bs4 import XMLParsedAsHTMLWarning
 from pathlib import Path
 import warnings
 import html
-
 import ArticleTextExtrator
 import LLMSummariser
-
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
-
 
 def extract_links(description):
     # Ensure the input is a string
@@ -59,5 +56,4 @@ def process_topics(x_many):
         if x_many == 0:
             return
 
-
-process_topics(3)
+# process_topics(3)
