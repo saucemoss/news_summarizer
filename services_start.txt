@@ -1,4 +1,0 @@
-# In backend folder
-uvicorn API:app --reload  
-# In frontend folder
-npm start  

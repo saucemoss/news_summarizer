@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from concurrent.futures import ThreadPoolExecutor
 import time
 
 def get_text(url):
@@ -22,3 +23,10 @@ def get_text(url):
     driver.quit()
     return article_text
 
+def extract_articles_parallel(urls, max_workers=4):
+    """Runs get_text in parallel using ThreadPoolExecutor."""
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        results = executor.map(get_text, urls)
+    # Concatenate all article texts into a single string
+    full_text = "\n\n".join(results)
+    return full_text

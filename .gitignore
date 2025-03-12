@@ -1,6 +1,5 @@
 __pycache__
 .idea
-backend/Modelfile
 backend/APISecrets.py
 frontend/node_modules
 frontend/public
