@@ -1,70 +1,47 @@
 import { useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Correct import path
 
+const NewsDetails = ({ article }) => {
+  if (!article) return null;
 
-const NewsDetails = ({ topic, insights, full_text, links, onClose }) => {
-  const [isTextVisible, setIsTextVisible] = useState(false);
-
-  const toggleTextVisibility = () => {
-    setIsTextVisible(!isTextVisible);
-  };
+  // Parse insights JSON if it's a string
+  const parsedInsights = typeof article.insights === 'string' 
+    ? JSON.parse(article.insights)
+    : article.insights;
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mt-4 mb-2">{topic}</h3>
-      {/* Insights Section */}
-      <h3 className="text-lg font-semibold mt-4">Insights:</h3>
-      <ul className="list-disc list-inside text-gray-300">
-        {insights.length > 0 &&
-          Object.values(insights[0]).map((insight, index) => (
-            <li key={index}>{insight}</li>
-          ))}
-      </ul>
-
-      {/* Full Text Section with collapsible functionality */}
-      <h3 className="text-lg font-semibold mt-4 mb-2">Full Text:</h3>
-      {/* Toggle button for showing/hiding full text */}
-      <button
-        className="flex items-center text-blue-500 hover:underline"
-        onClick={toggleTextVisibility}
-      >
-        {/* Show appropriate arrow based on visibility */}
-        {isTextVisible ? (
-          <FaChevronUp className="mr-2" />
-        ) : (
-          <FaChevronDown className="mr-2" />
-        )}
-        {isTextVisible ? "Hide Text" : "Show Full Text"}
-      </button>
-
-      {/* Conditionally render the full text */}
-      {isTextVisible && (
-        <ul className="text-gray-400 mt-2">
-          <li>{full_text}</li>
-        </ul>
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
+      {article.image_url && (
+        <div className="mb-6">
+          <img 
+            src={article.image_url} 
+            alt={article.title}
+            className="w-full h-64 object-cover rounded-lg shadow-md"
+          />
+        </div>
       )}
-
-      {/* Articles Section */}
-      <h3 className="text-lg font-semibold mt-4">Articles:</h3>
-      {links.map((link, index) => (
-        <a
-          key={index}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block text-blue-400 hover:underline mb-2 break-words"
-        >
-          {link}
-        </a>
-      ))}
-
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="mt-4 px-4 py-2 bg-blue-900 text-white rounded-lg"
+      <h2 className="text-2xl font-bold text-white mb-4">{article.title}</h2>
+      <p className="text-gray-300 mb-4">{article.summary}</p>
+      <div className="text-gray-300 mb-4">
+        {Array.isArray(parsedInsights) && parsedInsights.map((insight, index) => (
+          <div key={index} className="mb-2">
+            {typeof insight === 'object' ? (
+              Object.entries(insight).map(([key, value]) => (
+                <p key={key} className="ml-4">• {value}</p>
+              ))
+            ) : (
+              <p>• {insight}</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <a 
+        href={article.url} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-blue-400 hover:text-blue-300"
       >
-        Close
-      </button>
+        Read full article →
+      </a>
     </div>
   );
 };

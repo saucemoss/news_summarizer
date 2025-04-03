@@ -1,8 +1,15 @@
 import ollama
 from google import genai
+from google.genai import types
+from PIL import Image
+from io import BytesIO
+import base64
 import APISecrets
 from pydantic import BaseModel
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 #Gemini JSON Schema
 class Insights(BaseModel):
@@ -48,4 +55,26 @@ def get_article_summary_gemini(text):
     )
 
     json_dict = json.loads(response.text)
-    return json_dict[0]
+    logger.info(f"Raw Gemini response: {json.dumps(json_dict, indent=2)}")
+    
+    # Ensure the response has the correct structure
+    if not isinstance(json_dict, list):
+        logger.error("Response is not a list")
+        return [{"status": "error", "topic": "Error processing article", "links": [], "insights": []}]
+    
+    if len(json_dict) == 0:
+        logger.error("Response is empty")
+        return [{"status": "error", "topic": "No content found", "links": [], "insights": []}]
+    
+    # Ensure each item has the required fields
+    for item in json_dict:
+        if "insights" not in item:
+            item["insights"] = []
+        if "links" not in item:
+            item["links"] = []
+        if "status" not in item:
+            item["status"] = "OK"
+        if "topic" not in item:
+            item["topic"] = "Untitled"
+    
+    return json_dict
