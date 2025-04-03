@@ -8,6 +8,8 @@ A full-stack AI-powered news summarizer with a React frontend and an FastAPI bac
 
 ✅ Summarizes content with Google Gemini AI
 
+✅ Generated abstract image for each article
+
 [to do] Runs serverless with AWS Lambda & API Gateway
 
 ✅ UI built with React & Tailwind CSS
