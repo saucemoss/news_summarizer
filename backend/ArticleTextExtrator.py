@@ -14,12 +14,12 @@ def get_text(url):
 
     try:
         driver.get(url)
-        time.sleep(2)  # wait for the page to load
+        time.sleep(2.123)  # wait for the page to load
 
         try:
             accept_button = driver.find_element(By.XPATH, "//span[normalize-space(text())='Zaakceptuj wszystko']")
             accept_button.click()
-            time.sleep(1)  # wait for the cookie wall to disappear
+            time.sleep(1.143)  # wait for the cookie wall to disappear
         except Exception as e:
             logger.info("Cookie consent not found or already accepted")
 
